@@ -40,10 +40,4 @@ $(document).ready(function() {
       }
     );
 	 });
-  
-  $(document).on('click','.editarUsu',function(){
-    alert('hdhd');
-    
-    
-  });
 });

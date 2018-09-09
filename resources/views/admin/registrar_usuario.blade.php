@@ -6,7 +6,7 @@
 
 	<div class="row">
 		<div class="col-md-6 contenedor-img-registro-user">
-			<img src="http://laravel.dev:8000/images/seguridad.png" alt="Seguridad de sistemas" class="img-rounded fade-img img-registro-user">
+			<img src="{{ url('/') }}/images/seguridad.png" alt="Seguridad de sistemas" class="img-rounded fade-img img-registro-user">
 		</div>
 		<div class="col-md-6">
 			<div id="admin" class="col-md-10 ">

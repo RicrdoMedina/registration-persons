@@ -9,7 +9,7 @@
 									            <div id="webcam">
 									            </div>
 									            <div style="margin:5px;">
-									                <img src="http://laravel.dev:8000/js/ScriptCam/webcamlogo.png" style="vertical-align:text-top"/>
+                              <img src="{{ url('/') }}/js/ScriptCam/webcamlogo.png" style="vertical-align:text-top"/>
 									                <select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;">
 									                </select>
 									            </div>

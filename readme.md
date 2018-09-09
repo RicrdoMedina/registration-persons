@@ -1,27 +1,31 @@
-# Laravel PHP Framework
+# Proyecto personal: App libro de visitas
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+> Este repositorio contiene una aplicación web sencilla que permite llevar el control de las personas que ingresan a un edifico, empresa, etc. Guardando sus datos personal, descripción de la visita y capturando un foto de la persona. Fue desarrollada con el Framework Web Laravel 5.2
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+![Captura de la App](./readme-static/captura1.png)
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+![Captura de la App](./readme-static/captura2.png)
 
-## Official Documentation
+## Quick Start
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Requiere PHP version between 5.5.9 - 7.1.*
 
-## Contributing
+``` bash
+# Install Dependencies
+composer install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+# Run Migrations
+php artisan migrate
 
-## Security Vulnerabilities
+# Run Seeders
+php artisan db:seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+# Start up the php server
+php artisan serve
 
-## License
+# If you get an error about an encryption key
+php artisan key:generate
+```
+## Licencia 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+MIT

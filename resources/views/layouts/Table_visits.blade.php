@@ -50,7 +50,7 @@
 													<button class="btn btn-default" id="buscar-usuario" title="Realizar busqueda" type="button"><i class="fa fa-search"></i></button>
 												</span>
 											</div>
-
+                      <input type="hidden" id="refresh" name="refresh" value="0"/>
 											<button type="button" class="btn btn-default refresh buscadores" title="Función actualizar">
 													<i class="fa fa-refresh"></i> 
 													Refresh

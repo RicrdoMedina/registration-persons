@@ -69,16 +69,23 @@ class UserController extends Controller
             $type_user = $request->param1;
             $value = $request->param2;
 
-            if(! empty($type_user) && ! empty($value)) {
+            if ($request->refresh == 0) {
+
+              if(! empty($type_user) && empty($value)) {
                 $Guests = Guest::searchGuests($type_user,$value)->paginate($mostrar);
-            }
+              }
 
-            if(! empty($request->start) && ! empty($request->end)) {
-                //Formateando la fecha para realizar la busqueda
-                $date_start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d').' '.'00:00:00';
-                $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
+              if(! empty($type_user) && ! empty($value)) {
+                  $Guests = Guest::searchGuests($type_user,$value)->paginate($mostrar);
+              }
 
-                $Guests = Guest::searchGuestsForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar);   
+              if(! empty($request->start) && ! empty($request->end)) {
+                  //Formateando la fecha para realizar la busqueda
+                  $date_start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d').' '.'00:00:00';
+                  $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
+
+                  $Guests = Guest::searchGuestsForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar);   
+              }
             }
 
             return response()->json(view('layouts.Table_guests',compact('Guests','Visits','Clients'))->render());
@@ -114,15 +121,22 @@ class UserController extends Controller
             $type_user = $request->param1;
             $value = $request->param2;
 
-            if(! empty($type_user) && ! empty($value)) {
-                $Guests = DescriptionVisit::searchVisits($type_user,$value)->paginate($mostrar);
-            }
+            if ($request->refresh == 0) {
 
-            if(! empty($request->start) && ! empty($request->end)) {
-                //Formateando la fecha para realizar la busqueda
-                $date_start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d').' '.'00:00:00';
-                $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
-                $Guests = DescriptionVisit::searchVisitsForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar); 
+              if(! empty($type_user) && empty($value)) {
+                $Guests = DescriptionVisit::searchVisits($type_user,$value)->paginate($mostrar);
+              }
+
+              if(! empty($type_user) && ! empty($value)) {
+                  $Guests = DescriptionVisit::searchVisits($type_user,$value)->paginate($mostrar);
+              }
+
+              if(! empty($request->start) && ! empty($request->end)) {
+                  //Formateando la fecha para realizar la busqueda
+                  $date_start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d').' '.'00:00:00';
+                  $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
+                  $Guests = DescriptionVisit::searchVisitsForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar); 
+              }
             }
 
             return response()->json(view('layouts.Table_visits',compact('Guests','MotiveVisit','MotiveClient'))->render());
@@ -158,7 +172,6 @@ class UserController extends Controller
     {
         if($request->ajax())
         {
-        
             if(! empty($request['cedula'])) {
             //Verificar si el usuario ya esta registrado
 
@@ -166,12 +179,14 @@ class UserController extends Controller
 
                 //Obtener el registro del usuario mediante la cedula ingresada
                 $Persona = Guest::where( 'cedula' , '=' , $cedula)->get()->first();
+
                 if (! empty($Persona->id)) {
+                
                     $EnterpriseGuest = EnterpriseGuest::where( 'guest_id' , '=' , $Persona->id)->get()->first();
                     $Enterprise = Enterprise::find($EnterpriseGuest->enterprise_id);
                 }
-                
-                if(count($Persona) > 0) {
+     
+                if(isset($Persona)) {
                     $result = 1;
                     return response()->json(['status' => $result, 'cedula' => $Persona['cedula'], 'nombres' => $Persona['names'], 'apellidos' => $Persona['lastNames'],'foto' => $Persona['photo_src'], 'tipo' => $Persona['id_type_guest'],'empresa' => $Enterprise['enterprise'],'empresaOtra' => $EnterpriseGuest['enterpriseOther']]);
                 }else{
@@ -179,14 +194,14 @@ class UserController extends Controller
                     return response()->json(['status' => $result, 'cedula' => $cedula]);
                 }
             }
-
+            
             if(! empty($request['id'])) {
 
                 $cedula = $request['id'];
 
                 //Obtener el registro del usuario mediante la cedula ingresada
                 $Persona = Guest::where( 'cedula' , '=' , $cedula)->get()->first();
-                if(count($Persona) > 0) {
+                if(isset($Persona)) {
                 //Si el usuario esta registrado solo se registra datos de la visita
                 
                     //Guardar datos visita del invitado en la bd

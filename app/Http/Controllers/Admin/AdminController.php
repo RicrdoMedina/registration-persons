@@ -64,7 +64,7 @@ class AdminController extends Controller
             $User->email = $request['email'];
             $User->nombre = $request['nombres'];
             $User->apellido = $request['apellidos'];
-            $User->password = $request['password'];
+            $User->password = \Hash::make($request['password']);
             $User->rol = $request['rol'];
             $User->status = 1;
                        
@@ -113,6 +113,49 @@ class AdminController extends Controller
                 $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
 
                 $Guests = Guest::searchGuestsForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar);   
+            }
+
+            return response()->json(view('layouts.Table_users',compact('Users','Roles','Status'))->render());
+        }
+
+        return view('admin.consultarUsers', compact('Users','Roles','Status'));
+    }
+
+    public function filterUsers(Request $request)
+    {
+        $Roles = Rol::lists('rol', 'id');
+        $Status = ['1' => 'Activo', '0' => 'Desactivado'];
+
+        $query = User::listUsers();
+
+        $Users = $query->paginate(10);
+
+        if($request->ajax())
+        {
+            $mostrar = 10;
+            if (! empty($request->mostrar)) {
+              $mostrar = $request->mostrar;
+            }
+
+            $Users = $query->paginate($mostrar);
+            $type_user = $request->param1;
+            $value = $request->param2;
+
+            if ($request->refresh == 0) {
+              if(! empty($type_user) && empty($value)) {
+                $Users = User::where('rol', '=', $type_user)->paginate($mostrar);
+              }
+  
+              if(! empty($type_user) && ! empty($value)) {
+                $Users = User::filterUsers($type_user,$value)->paginate($mostrar);
+              }
+
+              if(! empty($request->start) && ! empty($request->end)) {
+                  //Formateando la fecha para realizar la busqueda
+                  $date_start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d').' '.'00:00:00';
+                  $date_end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d').' '.'23:59:59';
+                  $Users = User::searchUsersForDate($type_user,$date_start,$date_end,$value)->paginate($mostrar); 
+              }
             }
 
             return response()->json(view('layouts.Table_users',compact('Users','Roles','Status'))->render());

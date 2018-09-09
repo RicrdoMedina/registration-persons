@@ -18,8 +18,8 @@ $(document).ready(function() {
   var token;
 
   caledario();
-  selectOtro('motivo',6,'contenedor-indique-motivo-visitante','otro_motivo',0);
-  selectOtro('empresa',7,'contenedor-indique-empresa','otra_empresa',0);
+  selectOtro('motivo',5,'contenedor-indique-motivo-visitante','otro_motivo',0);
+  selectOtro('empresa',5,'contenedor-indique-empresa','otra_empresa',0);
   soloLetras();
   soloNumeros();
   noEspacio();
@@ -217,7 +217,7 @@ $(document).ready(function() {
                       draggable: true
                 }); 
 
-                redireccionador(baseUrl+'/registrar');
+                redireccionador(baseUrl+'/registrar/visita');
               }
             );
           }
@@ -336,7 +336,9 @@ $(document).ready(function() {
       $('#form-buscar #token').val(),
       $('#form-buscar').serialize(),
       function(data) {
+        console.log(data);
         $('#clientes-visitantes').html(data);
+        $('#tabla-usuarios').html(data);
         $('#param2').attr("value",param2);
         $('#startDate').attr("value",startDate);
         $('#endDate').attr("value",endDate);
@@ -399,7 +401,7 @@ $(document).ready(function() {
       redirect = baseUrl+'/consultar/visitas';
       id2 = $(this).attr('data-id');
     }
-
+    
     $.ajax({
       url: route,
       headers:{'X-CSRF-TOKEN': token},
@@ -418,7 +420,7 @@ $(document).ready(function() {
         $('#submitModal').hide();
         $('#editar').show();
         $('#myModal').modal('show');
-        selectOtro('empresa',7,'contenedor-indique-empresa','otra_empresa',1);
+        selectOtro('empresa',5,'contenedor-indique-empresa','otra_empresa',1);
         soloLetras();
         soloNumeros();
         noEspacio();
@@ -555,7 +557,7 @@ $(document).ready(function() {
         $('#editar').show();
         $('#myModal').modal('show');
         $("#contenedor-motivo-visitante").css('display','block');
-        selectOtro('motivo',6,'contenedor-indique-motivo-visitante','otro_motivo',1);
+        selectOtro('motivo',5,'contenedor-indique-motivo-visitante','otro_motivo',1);
         $('#formUpdate').attr('action',baseUrl+'/actualizar/visita');
         
         $('#editar').click(function() {
@@ -669,11 +671,13 @@ $(document).ready(function() {
     if(view == 1) {
       nombreCompleto = $(this).attr('data-nombre');
       apellidoCompleto = $(this).attr('data-apellido');
-
-      alert(nombreCompleto + apellidoCompleto);
       user = cortarNombreCompleto(nombreCompleto,apellidoCompleto);
 
       route = baseUrl+'/usuario/'+user;
+    }
+
+    if ($("#refresh").length == 1) {
+      $("#refresh").val(1);
     }
     
     ajax(
@@ -683,6 +687,11 @@ $(document).ready(function() {
       $('#form-buscar').serialize(),
       function(data) {
         $('#clientes-visitantes').html(data);
+        $('#tabla-usuarios').html(data);
+        if ($("#refresh").length == 1) {
+          $("#refresh").val(0);
+        }
+        console.log(data);
         caledario();
       },
       function(xhr, status, error){
@@ -751,6 +760,7 @@ $(document).ready(function() {
     redirect = baseUrl+'/consultar/usuarios';
     route = baseUrl+'/editar/user';
     token = $('#token').val();
+
     $.ajax({
       url: route,
       headers:{'X-CSRF-TOKEN': token},
@@ -773,7 +783,7 @@ $(document).ready(function() {
           $('.disabled').prop('disabled', false);
         
           $('#editar').hide();
-          $('#submitModal').show();
+          $('#submitModal').show().attr('type','button');
         });
 
 
@@ -826,7 +836,7 @@ $(document).ready(function() {
                 BootstrapDialog.show({
                   type: BootstrapDialog.TYPE_DANGER,
                   title: 'Ocurrio un errror!',
-                  message: "<p style='color:ddd'>No edito el registro. Si persiste el error contacte al administrador.</p>",
+                  message: "<p style='color:ddd'>No se edito el registro. Si persiste el error contacte al administrador.</p>",
                   draggable: true
                 }); 
               }    

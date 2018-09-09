@@ -168,7 +168,7 @@ $current = array('access' => '','login' => '','registrar' => '','consultar' => '
                     {
                     ?>
                         <li class="{{$current['login']}}">
-                            <a href="{{URL::to('auth/login')}}"><i class="fa fa-user"></i> Login</a>
+                            <a href="{{URL::to('/')}}"><i class="fa fa-user"></i> Login</a>
                         </li>
                     <?php
                      }
@@ -193,7 +193,7 @@ $current = array('access' => '','login' => '','registrar' => '','consultar' => '
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Created by Ricardo Medina</p>
                 </div>
             </div>
         </footer>

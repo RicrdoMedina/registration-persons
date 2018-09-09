@@ -50,4 +50,33 @@ class User extends Authenticatable
                  ->select('id','email', 'nombre','apellido','rol','status')
                  ->orderBy('id', 'desc');
     }
+
+    public static function filterUsers($type_user,$value) 
+    {
+        return DB::table('users')
+                ->select('id','email', 'nombre','apellido','rol','status')
+                 ->where('users.rol', '=', $type_user)
+                 ->where(function ($query) use ($value) {
+                    $query->where('users.nombre', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.apellido', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.email', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.status', 'LIKE', '%'.$value.'%');
+                 })
+                 ->orderBy('users.id', 'desc');
+    }
+
+    public static function searchUsersForDate($type_user,$date_start,$date_end,$value) 
+    {
+        return DB::table('users')
+                 ->select('id','email', 'nombre','apellido','rol','status')
+                 ->where('users.rol', '=', $type_user)
+                 ->whereBetween('users.created_at',[$date_start,$date_end])
+                 ->where(function ($query) use ($value) {
+                    $query->where('users.nombre', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.apellido', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.email', 'LIKE', '%'.$value.'%')
+                    ->orWhere('users.status', 'LIKE', '%'.$value.'%');
+                 })
+                ->orderBy('users.id', 'desc');
+    }
 }

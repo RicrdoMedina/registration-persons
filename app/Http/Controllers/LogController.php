@@ -34,11 +34,11 @@ class LogController extends Controller
 
         //Sino enviar msj con los errores
         Session::flash('message_error', 'Su email o password es invalido!');
-        return redirect('auth/login')->withInput($request->except('password'));
+        return redirect('/')->withInput($request->except('password'));
     }
     public function logout()
     {
         Auth::logout();
-        return Redirect::to('auth/login');
+        return Redirect::to('/');
     }
 }

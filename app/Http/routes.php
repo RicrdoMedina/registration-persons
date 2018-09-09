@@ -12,7 +12,7 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-	Route::get('auth/login', [
+	Route::get('/', [
     	'as' => 'auth/login', 'uses' => 'LogController@index'
 	]);
 
@@ -50,7 +50,11 @@ Route::group(['namespace' => 'Admin','middleware' => ['web','auth']], function()
 
 	Route::get('consultar/usuarios', [
     	'as' => 'consultar/usuarios', 'uses' => 'AdminController@users'
-	]);
+  ]);
+  
+  Route::post('consultar/usuarios', [
+    'as' => 'consultar/usuarios', 'uses' => 'AdminController@filterUsers'
+]);
 
 	Route::post('editar/user', [
     	'as' => 'editar/user', 'uses' => 'AdminController@editUser'
