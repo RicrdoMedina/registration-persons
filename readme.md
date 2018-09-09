@@ -1,6 +1,6 @@
 # Proyecto personal: App libro de visitas
 
-> Este repositorio contiene una aplicación web sencilla que permite llevar el control de las personas que ingresan a un edifico, empresa, etc. Guardando sus datos personal, descripción de la visita y capturando un foto de la persona. Fue desarrollada con el Framework Web Laravel 5.2
+> Este repositorio contiene una aplicación web sencilla que permite llevar el control de las personas que ingresan a un edifico, empresa, etc. Guardando sus datos personales, descripción de la visita y capturando un foto de la persona. Fue desarrollada con el Framework Web Laravel 5.2
 
 ![Captura de la App](./readme-static/captura1.png)
 
